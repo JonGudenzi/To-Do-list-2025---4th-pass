@@ -21,6 +21,9 @@ function render() {
         const li = document.createElement("li");
         li.textContent = task.text;
         li.dataset.index = index;
+        if (task.completed === true) {
+            li.classList.add("completed");
+        }
         taskList.appendChild(li);
         li.addEventListener("click", toggleTask);
         const deleteBtn = document.createElement("button");

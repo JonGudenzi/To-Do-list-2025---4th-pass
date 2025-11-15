@@ -26,7 +26,7 @@ function render() {
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "X";
         li.appendChild(deleteBtn);
-        deleteBtn.addEventListener("click", function(event) {
+        deleteBtn.addEventListener("click", function (event) {
             event.stopPropagation();
             const parentLi = event.target.closest("li");
             const index = parentLi.dataset.index;
@@ -50,18 +50,20 @@ function deleteTask(index) {
 }
 
 function saveTasks() {
-const taskStorage = JSON.stringify(tasks);
-localStorage.setItem("task", taskStorage);
+    const taskStorage = JSON.stringify(tasks);
+    localStorage.setItem("task", taskStorage);
 }
 
 function loadTasks() {
-const taskStorage = localStorage.getItem("task");
-const newTaskData = JSON.parse(taskStorage);
-tasks.length = 0;
-newTaskData.forEach(function(item) {
-    tasks.push(item);
-});
-render();
+    const taskStorage = localStorage.getItem("task");
+    if (taskStorage) {
+        const newTaskData = JSON.parse(taskStorage);
+        tasks.length = 0;
+        newTaskData.forEach(function (item) {
+            tasks.push(item);
+        });
+        render();
+    }
 }
 
 taskForm.addEventListener("submit", handleSubmit);
@@ -78,3 +80,5 @@ function handleSubmit(event) {
     taskInput.value = "";
     taskInput.focus();
 }
+
+loadTasks();

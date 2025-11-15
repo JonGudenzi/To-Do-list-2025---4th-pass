@@ -26,6 +26,12 @@ function render() {
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "X";
         li.appendChild(deleteBtn);
+        deleteBtn.addEventListener("click", function(event) {
+            event.stopPropagation();
+            const parentLi = event.target.closest("li");
+            const index = parentLi.dataset.index;
+            deleteTask(index);
+        });
     })
 }
 
@@ -38,15 +44,24 @@ function toggleTask(event) {
 }
 
 function deleteTask(index) {
-
+    tasks.splice(index, 1);
+    render();
+    saveTasks();
 }
 
 function saveTasks() {
-
+const taskStorage = JSON.stringify(tasks);
+localStorage.setItem("task", taskStorage);
 }
 
 function loadTasks() {
-
+const taskStorage = localStorage.getItem("task");
+const newTaskData = JSON.parse(taskStorage);
+tasks.length = 0;
+newTaskData.forEach(function(item) {
+    tasks.push(item);
+});
+render();
 }
 
 taskForm.addEventListener("submit", handleSubmit);
